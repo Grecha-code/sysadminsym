@@ -1,0 +1,57 @@
+import pygame
+import sys
+
+pygame.init()
+screen = pygame.display.set_mode((800, 480))
+pygame.display.set_caption("Sys admin simulator")
+
+main_menu = pygame.image.load("rfqa123.jpg")
+game_start = pygame.image.load("start123-Photoroom.png")
+game_back = pygame.image.load("back123-Photoroom.png")
+per = pygame.image.load("1600x900.jpg")
+
+start_pos = (240, 80)
+back_pos = (240, 240)
+
+start_rect = game_start.get_rect(topleft=start_pos)
+back_rect = game_back.get_rect(topleft=back_pos)
+
+history = pygame.font.Font(None, 28)
+text = history.render(
+    'Предыстория: Ты 18-летний студент, который уже полгода ходит в универ.', True, (255, 255, 255))
+
+text1 = history.render('Ты захотел заниматься починкой ПК и'
+    'за это время ты смог насобрать 200$. Данная сумма неплохая, но'
+    ' для закупа оборудования этой суммы мало.', True, (255, 255, 255))
+
+text2 = history.render('Тебе нужно немного поработать в других компаниях'
+    ' для заработка денег.', True, (255, 255, 255))
+
+show_text = False
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if start_rect.collidepoint(event.pos):
+                    show_text = True
+                    screen = pygame.display.set_mode((1600, 900))
+                elif back_rect.collidepoint(event.pos):
+                    print("Игра окончена!")
+                    pygame.quit()
+                    sys.exit()
+
+    if not show_text:
+        screen.blit(main_menu, (0, 0))
+        screen.blit(game_start, start_pos)
+        screen.blit(game_back, back_pos)
+    else:
+        screen.blit(per, (0, 0))
+        screen.blit(text, (20, 20))
+        screen.blit(text1, (40, 40))
+        screen.blit(text2, (60, 60))
+    pygame.display.update()
