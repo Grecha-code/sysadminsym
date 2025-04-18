@@ -1,0 +1,76 @@
+import pygame
+import sys
+from pygame.color import THECOLORS
+
+screen = pygame.display.set_mode((800, 480))
+pygame.display.set_caption("Sys admin simulator")
+
+main_menu = pygame.image.load("rfqa123.jpg")
+game_start = pygame.image.load("start123-Photoroom.jpg")
+per = pygame.image.load("1600x900.jpg")
+first_lvl = pygame.image.load('image-Photoroom.jpg')
+yes = pygame.image.load('New Точечный рисунок-Photoroom.png')
+no = pygame.image.load('New Точечный-Photoroom.png')
+
+start_pos = (240, 160)
+start_rect = game_start.get_rect(topleft=start_pos)
+first_lvl_rect = first_lvl.get_rect(topleft=(800, 240))
+history = pygame.font.Font(None, 28)
+money = 200
+pres = 0
+z_font = pygame.font.Font(None, 58)
+
+hat = pygame.font.Font(None, 52).render('SYS ADMIN SIMULATOR', True, (255, 0, 0))
+
+
+balance = z_font.render(f'Баланс: {money}$', True, (0, 0, 0))
+pres_text = z_font.render(f'Предупреждения: {pres}', True, (0, 0, 0))
+text = history.render(
+    'Предыстория: Ты 18-летний студент, который уже полгода ходит в универ.', True, (255, 255, 255))
+
+text1 = history.render('Ты захотел заниматься починкой ПК и'
+                       ' за это время ты смог насобирать 200$. Данная сумма неплохая, но'
+                       ' для закупа оборудования этой суммы мало.', True, (255, 255, 255))
+
+text2 = history.render('Тебе нужно поработать в других компаниях'
+                       ' для заработка и открытия своей компании. Но главное не косячь, за 2 предупреждения тебя уволят', True, (255, 255, 255))
+
+first_text = z_font.render('Ты только устроился и тебе поручили первый заказ.'
+                           ' Выполнишь его?', True, (0, 0, 0))
+show_text = False
+nxt = False
+pygame.draw.rect(screen, (255, 255, 255), pygame.Rect(50, 50, 100, 200), 0)
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if start_rect.collidepoint(event.pos):
+                    show_text = True
+                    screen = pygame.display.set_mode((1600, 900))
+                if first_lvl_rect.collidepoint(event.pos):
+                    nxt = True
+
+    if not show_text:
+        screen.blit(main_menu, (0, 0))
+        screen.blit(game_start, start_pos)
+        screen.blit(hat, (180, 50))
+    else:
+        screen.blit(per, (0, 0))
+        screen.blit(text, (20, 20))
+        screen.blit(text1, (40, 40))
+        screen.blit(text2, (60, 60))
+        screen.blit(first_lvl, (800, 240))
+    if nxt:
+        screen.fill(THECOLORS['white'])
+        screen.blit(first_text, (105, 100))
+        screen.blit(balance, (10, 0))
+        screen.blit(pres_text, (10, 40))
+        screen.blit(yes, (120, 180))
+        screen.blit(no, (360, 180))
+    pygame.display.update()
+    pygame.display.flip()
