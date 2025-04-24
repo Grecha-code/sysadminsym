@@ -1,19 +1,28 @@
 import pygame
 import sys
+import time
 from pygame.color import THECOLORS
 
+zak_num = 0
+
+pygame.init()
 screen = pygame.display.set_mode((800, 480))
 pygame.display.set_caption("Sys admin simulator")
 
 main_menu = pygame.image.load("rfqa123.jpg")
-game_start = pygame.image.load("start123-Photoroom.jpg")
+game_start = pygame.image.load("start123-Photoroom.png")
 per = pygame.image.load("1600x900.jpg")
 first_lvl = pygame.image.load('image-Photoroom.jpg')
-yes = pygame.image.load('New Точечный рисунок-Photoroom.png')
-no = pygame.image.load('New Точечный-Photoroom.png')
+hone = pygame.image.load('hone.jpg')
+icons = pygame.image.load('icons.png')
+inst_hone = pygame.image.load('instruct.jpg')
 
 start_pos = (240, 160)
 start_rect = game_start.get_rect(topleft=start_pos)
+qq = 'Предыстория: Ты 18-летний студент, который уже полгода ходит в универ.'
+ww = 'Ты захотел заниматься починкой ПК и за это время ты смог насобирать 200$. Данная сумма неплохая, но для закупа оборудования этой суммы мало.'
+ee = 'Тебе нужно поработать в других компаниях для заработка и открытия своей компании. Но главное не косячь, за 2 предупреждения тебя уволят'
+
 first_lvl_rect = first_lvl.get_rect(topleft=(800, 240))
 history = pygame.font.Font(None, 28)
 money = 200
@@ -25,21 +34,35 @@ hat = pygame.font.Font(None, 52).render('SYS ADMIN SIMULATOR', True, (255, 0, 0)
 
 balance = z_font.render(f'Баланс: {money}$', True, (0, 0, 0))
 pres_text = z_font.render(f'Предупреждения: {pres}', True, (0, 0, 0))
-text = history.render(
-    'Предыстория: Ты 18-летний студент, который уже полгода ходит в универ.', True, (255, 255, 255))
 
-text1 = history.render('Ты захотел заниматься починкой ПК и'
-                       ' за это время ты смог насобирать 200$. Данная сумма неплохая, но'
-                       ' для закупа оборудования этой суммы мало.', True, (255, 255, 255))
+rul1 = pygame.font.Font(None, 34).render('Правила: 1) За неправильное выполнение заказа тебе дают 1 предкпреждение.', True, (255, 255, 255))
+rul2 = pygame.font.Font(None, 34).render('2) Игра считается пройденной если ты закупил ВСЕ оборудование.', True, (255, 255, 255))
+rul3 = pygame.font.Font(None, 34).render('3) Чтобы открыть инструкцию нажмите TAB.', True, (255, 255, 255))
+yes_text = z_font.render('Да', True, (0, 0, 0))
+no_text = z_font.render('Нет', True, (0, 0, 0))
 
-text2 = history.render('Тебе нужно поработать в других компаниях'
-                       ' для заработка и открытия своей компании. Но главное не косячь, за 2 предупреждения тебя уволят', True, (255, 255, 255))
+q = len(qq)
+w = len(ww)
+e = len(ee)
+t = 0
+ipg = False
+pof = False
 
-first_text = z_font.render('Ты только устроился и тебе поручили первый заказ.'
-                           ' Выполнишь его?', True, (0, 0, 0))
+first_text = z_font.render('Удалить вирус с ПК, 100$ (нажать 1)', True, (0, 0, 0))
+second_text = z_font.render('Удалить пароль с биоса, 300$ (нажать 2)', True, (0, 0, 0))
+third_text = z_font.render('Установить Windows 11, 200$ (нажать 3)', True, (0, 0, 0))
+forth_text = z_font.render('Удалить вирус с ноутбука, 150$ (нажать 4)', True, (0, 0, 0))
+fifth_text = z_font.render('Установить драйвера, 150$ (нажать 5)', True, (0, 0, 0))
+game_over = pygame.font.Font(None, 140).render('GAME OVER', True, (255, 0, 0))
+ops_1 = z_font.render('Пользователь установил программу, в комплекте с которой шёл вирус.', True, (255, 255, 255))
+ops_11 = z_font.render('Он закрывает любую программу при открытии', True, (255, 255, 255))
+
 show_text = False
 nxt = False
-pygame.draw.rect(screen, (255, 255, 255), pygame.Rect(50, 50, 100, 200), 0)
+d = False
+inst = False
+jj = False
+ant = False
 
 while True:
     for event in pygame.event.get():
@@ -47,11 +70,36 @@ while True:
             pygame.quit()
             sys.exit()
 
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
+            if event.key == pygame.K_p:
+                nxt = True
+            if event.key == pygame.K_1:
+                ipg = True
+            if event.key == pygame.K_6:
+                pof = True
+                zak_num = 1
+            if event.key == pygame.K_o:
+                ant = True
+            if event.key == pygame.K_TAB:
+                inst = True
+            if event.key == pygame.K_CAPSLOCK:
+                inst = False
+            if event.key == pygame.K_e:
+                time.sleep(0.5)
+                jj = True
+            if event.key == pygame.K_q:
+                jj = False
+
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 if start_rect.collidepoint(event.pos):
                     show_text = True
-                    screen = pygame.display.set_mode((1600, 900))
+                    screen = pygame.display.set_mode((1, 1))
+                    time.sleep(0.2)
+                    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
                 if first_lvl_rect.collidepoint(event.pos):
                     nxt = True
 
@@ -59,18 +107,56 @@ while True:
         screen.blit(main_menu, (0, 0))
         screen.blit(game_start, start_pos)
         screen.blit(hat, (180, 50))
-    else:
+    elif show_text:
         screen.blit(per, (0, 0))
-        screen.blit(text, (20, 20))
-        screen.blit(text1, (40, 40))
-        screen.blit(text2, (60, 60))
+        screen.blit(rul1, (60, 100))
+        screen.blit(rul2, (60, 130))
+        screen.blit(rul3, (60, 160))
         screen.blit(first_lvl, (800, 240))
+        if t < q:
+            t += 1
+            time.sleep(0.03)
+        screen.blit(history.render(qq[:t], True, (255, 255, 255)), (20, 20))
+        if t < w:
+            t += 1
+            time.sleep(0.03)
+        screen.blit(history.render(ww[:t], True, (255, 255, 255)), (40, 40))
+        if t < e:
+            t += 1
+            time.sleep(0.03)
+        screen.blit(history.render(ee[:t], True, (255, 255, 255)), (60, 60))
     if nxt:
-        screen.fill(THECOLORS['white'])
-        screen.blit(first_text, (105, 100))
+        screen.blit(hone, (0, 0))
+        screen.blit(first_text, (300, 100))
+        screen.blit(second_text, (300, 200))
+        screen.blit(third_text, (300, 300))
+        screen.blit(forth_text, (300, 400))
+        screen.blit(fifth_text, (300, 500))
         screen.blit(balance, (10, 0))
         screen.blit(pres_text, (10, 40))
-        screen.blit(yes, (120, 180))
-        screen.blit(no, (360, 180))
-    pygame.display.update()
-    pygame.display.flip()
+    if ipg:
+        screen.fill(THECOLORS['blue'])
+        screen.blit(ops_1, (10, 70))
+        screen.blit(ops_11, (10, 120))
+        screen.blit(pygame.font.Font(None, 150).render('Нажмите 6', True, (0, 0, 0)), (550, 700))
+    if pof:
+        screen.blit(hone, (0, 0))
+        screen.blit(icons, (0, 0))
+    if inst:
+        screen.blit(inst_hone, (0, 0))
+    if pres >= 2:
+        screen.fill(THECOLORS['black'])
+        screen.blit(game_over, (600, 500))
+    if jj:
+        screen.fill(THECOLORS['white'])
+        screen.blit(history.render('Флэшка', True, (0, 0, 0)),(0, 0))
+        screen.blit(z_font.render('Windows 11', True, (0, 0, 0)),(80, 80))
+        screen.blit(z_font.render('Антивирус', True, (0, 0, 0)),(80, 140))
+        screen.blit(z_font.render('Консоль', True, (0, 0, 0)),(80, 200))
+    if ant:
+        screen.fill(THECOLORS['white'])
+        screen.blit(pygame.font.Font(None, 140).render('Установка...', True, (0, 0, 0)),(600, 400))
+        time.sleep(1)
+        screen.blit(pygame.font.Font(None, 140).render('Готово :)', True, (0, 0, 0)),(600, 500))
+        money += 100
+    pygame.display.flip() 
