@@ -4,24 +4,28 @@ import time
 from pygame.color import THECOLORS
 
 zak_num = 0
+h1 = 0
 
 pygame.init()
 screen = pygame.display.set_mode((800, 480))
-pygame.display.set_caption("Sys admin simulator")
+pygame.display.set_caption("Sys admin simulator🧑‍💻")
 
 main_menu = pygame.image.load("rfqa123.jpg")
-game_start = pygame.image.load("start123-Photoroom.png")
+game_start = pygame.image.load("start123.png")
 per = pygame.image.load("1600x900.jpg")
 first_lvl = pygame.image.load('image-Photoroom.jpg')
 hone = pygame.image.load('hone.jpg')
 icons = pygame.image.load('icons.png')
 inst_hone = pygame.image.load('instruct.jpg')
+laptop = pygame.image.load('Laptop.png')
 
 start_pos = (240, 160)
 start_rect = game_start.get_rect(topleft=start_pos)
 qq = 'Предыстория: Ты 18-летний студент, который уже полгода ходит в универ.'
-ww = 'Ты захотел заниматься починкой ПК и за это время ты смог насобирать 200$. Данная сумма неплохая, но для закупа оборудования этой суммы мало.'
-ee = 'Тебе нужно поработать в других компаниях для заработка и открытия своей компании. Но главное не косячь, за 2 предупреждения тебя уволят'
+ww = ('Ты захотел заниматься посинкой ПК и купить новый ноутбук. За это время ты смог насобирать 200$.'
+      ' Данная сумма неплохая, но для покупки ноута её мало.')
+ee = ('Тебе нужно подработать в компаниях для заработка денег.'
+      ' Но главное не косячь, за 2 предупреждения тебя уволят')
 
 first_lvl_rect = first_lvl.get_rect(topleft=(800, 240))
 history = pygame.font.Font(None, 28)
@@ -36,8 +40,8 @@ balance = z_font.render(f'Баланс: {money}$', True, (0, 0, 0))
 pres_text = z_font.render(f'Предупреждения: {pres}', True, (0, 0, 0))
 
 rul1 = pygame.font.Font(None, 34).render('Правила: 1) За неправильное выполнение заказа тебе дают 1 предкпреждение.', True, (255, 255, 255))
-rul2 = pygame.font.Font(None, 34).render('2) Игра считается пройденной если ты закупил ВСЕ оборудование.', True, (255, 255, 255))
-rul3 = pygame.font.Font(None, 34).render('3) Чтобы открыть инструкцию нажмите TAB.', True, (255, 255, 255))
+rul2 = pygame.font.Font(None, 34).render('2) Игра считается пройденной если ты прошел ВСЕ тестовые задания.', True, (255, 255, 255))
+rul3 = pygame.font.Font(None, 34).render('3) Чтобы открыть инструкцию нажмите TAB, чтобы закрыть CAPS.', True, (255, 255, 255))
 yes_text = z_font.render('Да', True, (0, 0, 0))
 no_text = z_font.render('Нет', True, (0, 0, 0))
 
@@ -57,12 +61,20 @@ game_over = pygame.font.Font(None, 140).render('GAME OVER', True, (255, 0, 0))
 ops_1 = z_font.render('Пользователь установил программу, в комплекте с которой шёл вирус.', True, (255, 255, 255))
 ops_11 = z_font.render('Он закрывает любую программу при открытии', True, (255, 255, 255))
 
+first_text_x = z_font.render('Удалить вирус с ПК, 100$ (ВЫПОЛНЕННО)', True, (0, 255, 0))
+first_text_y = z_font.render('Удалить вирус с ПК, 100$ (НЕ ВЫПОЛНЕННО)', True, (255, 0, 0))
+
+
 show_text = False
 nxt = False
 d = False
 inst = False
 jj = False
 ant = False
+nxt1 = False
+
+if nxt1 == True:
+    money += 100
 
 while True:
     for event in pygame.event.get():
@@ -74,8 +86,6 @@ while True:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 sys.exit()
-            if event.key == pygame.K_p:
-                nxt = True
             if event.key == pygame.K_1:
                 ipg = True
             if event.key == pygame.K_6:
@@ -87,9 +97,14 @@ while True:
                 inst = True
             if event.key == pygame.K_CAPSLOCK:
                 inst = False
-            if event.key == pygame.K_e:
-                time.sleep(0.5)
-                jj = True
+            if zak_num == 1:
+                if event.key == pygame.K_e:
+                    time.sleep(0.5)
+                    jj = True
+                    h1 = 1
+            if h1 == 1:
+                if event.key != pygame.K_o:
+                    pres += 1
             if event.key == pygame.K_q:
                 jj = False
 
@@ -102,6 +117,8 @@ while True:
                     screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
                 if first_lvl_rect.collidepoint(event.pos):
                     nxt = True
+                if zak_num == 1:
+                    nxt1 = True
 
     if not show_text:
         screen.blit(main_menu, (0, 0))
@@ -144,19 +161,32 @@ while True:
         screen.blit(icons, (0, 0))
     if inst:
         screen.blit(inst_hone, (0, 0))
-    if pres >= 2:
-        screen.fill(THECOLORS['black'])
-        screen.blit(game_over, (600, 500))
     if jj:
         screen.fill(THECOLORS['white'])
         screen.blit(history.render('Флэшка', True, (0, 0, 0)),(0, 0))
-        screen.blit(z_font.render('Windows 11', True, (0, 0, 0)),(80, 80))
-        screen.blit(z_font.render('Антивирус', True, (0, 0, 0)),(80, 140))
-        screen.blit(z_font.render('Консоль', True, (0, 0, 0)),(80, 200))
+        screen.blit(z_font.render('Windows 11(W)', True, (0, 0, 0)),(80, 80))
+        screen.blit(z_font.render('Антивирус(O)', True, (0, 0, 0)),(80, 140))
+        screen.blit(z_font.render('Консоль(K)', True, (0, 0, 0)),(80, 200))
     if ant:
         screen.fill(THECOLORS['white'])
-        screen.blit(pygame.font.Font(None, 140).render('Установка...', True, (0, 0, 0)),(600, 400))
+        screen.blit(pygame.font.Font(None, 140).render('Установка...', True, (0, 0, 0)),(200, 100))
         time.sleep(1)
-        screen.blit(pygame.font.Font(None, 140).render('Готово :)', True, (0, 0, 0)),(600, 500))
-        money += 100
-    pygame.display.flip() 
+        screen.blit(pygame.font.Font(None, 140).render('Готово :)', True, (0, 0, 0)),(200, 200))
+        screen.blit(first_lvl, (800, 240))
+    if nxt1:
+        screen.blit(hone, (0, 0))
+        screen.blit(first_text_x, (300, 100))
+        screen.blit(second_text, (300, 200))
+        screen.blit(third_text, (300, 300))
+        screen.blit(forth_text, (300, 400))
+        screen.blit(fifth_text, (300, 500))
+        screen.blit(balance, (10, 0))
+        screen.blit(pres_text, (10, 40))
+    if money >= 1000:
+        screen.fill(THECOLORS['blue'])
+        screen.blit(laptop, (190, 200))
+        screen.blit(z_font.render('Поздравляю! Ты прошёл игру)', True, (255, 255, 255)),(700, 500))
+    if pres >= 2:
+        screen.fill(THECOLORS['black'])
+        screen.blit(game_over, (500, 400))
+    pygame.display.flip()
